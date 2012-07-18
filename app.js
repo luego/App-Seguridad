@@ -3,9 +3,10 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http');
+var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var mongoose = require('mongoose');
 
 var app = express();
 
@@ -24,6 +25,10 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
+//Database
+mongoose.connect('htt://localhost/seguridad_database');
+
 
 app.get('/', routes.index);
 
