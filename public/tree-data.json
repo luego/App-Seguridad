@@ -6,6 +6,11 @@
                     expanded: true,
                     children:[
                                 {
+                                    text:"Clientes",
+                                    id:"usuarios",
+                                    leaf:true
+                                },
+                                {
                                     text:"Reportes",
                                     id:"viajes",
                                     leaf:true

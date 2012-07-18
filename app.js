@@ -47,7 +47,7 @@ var Cliente = new Schema({
 var Conductor = new Schema({  
     nombre           : { type: String },
     apellido         : { type: String },
-    cedula           : { type: String },
+    cedula           : { type: Number },
     lugar_nacimiento : { type: String },
     fecha_nacimiento : { type: String },
     telefono         : { type: String },
@@ -56,7 +56,7 @@ var Conductor = new Schema({
 
 var Escolta = new Schema({  
     nombre           : { type: String},
-    apellid          : { type: String},
+    apellido         : { type: String},
     cedula           : { type: String},
     lugar_nacimiento : { type: String},
     fecha_nacimiento : { type: String},
@@ -105,6 +105,87 @@ var RegistroViajesModel = mongoose.model('RegistroViajes', RegistroViajes);
 
 //Routes
 app.get('/', routes.index);
+
+app.get('/api/clientes',function (req, res){
+    return ClienteModel.find(function (err, clientes) {
+        if (!err) {
+            console.log(clientes);
+            return res.send({success : true, data : clientes});
+        } else {
+            return console.log(err);
+        }
+    });
+});
+
+app.post('/api/clientes',function (req, res){
+    var cliente;
+    console.log("POST: ");
+    console.log(req.body);
+
+    cliente = new ClienteModel({
+        nombre_empresa : req.body.nombre_empresa,
+        ciudad         : req.body.ciudad,
+        usuario        : req.body.usuario,
+        clave          : req.body.clave,
+        contacto       : req.body.contacto
+    });
+    var isError;
+    cliente.save(function (err,p) {
+        if (!err) {
+            isError = false;
+            console.log('created');
+        } else {
+            isError = true;
+            return console.log(err);
+        }
+    });
+    return res.send({ success: isError, data: cliente });
+});
+
+
+app.get('/api/clientes/:id', function (req, res){
+    return ClienteModel.findById(req.params.id, function (err, cliente) {
+        if (!err) {
+            return res.send(cliente);
+        } else {
+            return console.log(err);
+        }
+    });
+});
+
+
+app.put('/api/clientes', function (req, res){
+    return ClienteModel.findById(req.body._id, function (err, cliente) {
+        
+        cliente.nombre_empresa = req.body.nombre_empresa;
+        cliente.ciudad         = req.body.ciudad;
+        cliente.usuario        = req.body.usuario;
+        cliente.clave          = req.body.clave;
+        cliente.contacto       = req.body.contacto;
+
+        return cliente.save(function (err) {
+            if (!err) {
+                console.log("updated");
+            } else {
+                console.log(err);
+            }
+            return res.send({ success: !err, data: cliente });
+        });
+    });
+});
+
+app.delete('/api/clientes', function (req, res){
+    return ClienteModel.findById(req.body._id, function (err, cliente) {
+        return cliente.remove(function (err) {
+            if (!err) {
+                console.log("removed");
+                return res.send('');
+            } else {
+                console.log(err);
+            }
+        });
+    });
+});
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));

@@ -76,11 +76,12 @@ Ext.onReady(function(){
             layout : 'anchor',
             anchor:'100%',
             activeTab: 0,
-            items: [{
+            /*items: [{
                 title: 'Bienvenido',
                 html : '<center><img src="images/imagen.jpg"</center>',
                 closable: false
-            }]
+            }]*/
+            items:[]
         });
 
         var contentPanel = {
