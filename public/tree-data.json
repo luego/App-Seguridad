@@ -1,0 +1,16 @@
+{ 
+    text: ".",
+    children: [
+                {
+                    text:"Menu",
+                    expanded: true,
+                    children:[
+                                {
+                                    text:"Reportes",
+                                    id:"viajes",
+                                    leaf:true
+                                }
+                            ]
+                }
+            ]
+}
